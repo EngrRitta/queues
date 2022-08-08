@@ -13,7 +13,6 @@ public class Deque<Item> implements Iterable<Item> {
         private Node previous;
     }
 
-    // comment
     public Deque() {
         n = 0;
         first = null;
@@ -146,11 +145,14 @@ public class Deque<Item> implements Iterable<Item> {
         myDeck.addLast(2);
         myDeck.addLast(3);
         myDeck.addLast(4);
-        // System.out.println(myDeck.removeFirst());
-        // System.out.println(myDeck.removeFirst());
-        // System.out.println(myDeck.removeFirst());
-        // System.out.println(myDeck.removeFirst());
-        // Iterator<Integer> itr = myDeck.iterator();
+        myDeck.addFirst(37);
+        myDeck.addLast(34);
+        System.out.println(myDeck.isEmpty());
+        System.out.println(myDeck.size());
+        System.out.println(myDeck.removeFirst());
+        System.out.println(myDeck.removeLast());
+        System.out.println(myDeck.removeLast());
+        Iterator<Integer> itr = myDeck.iterator();
 
         for (int item : myDeck) {
             System.out.println(item);
