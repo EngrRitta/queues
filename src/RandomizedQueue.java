@@ -4,6 +4,7 @@
  *  Description:
  **************************************************************************** */
 
+import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Iterator;
@@ -14,6 +15,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     private int n;
     private int size;
     private Item[] queue;
+    private boolean havePushed;
 
     public RandomizedQueue() {
         size = 1;
@@ -39,6 +41,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             size = size * 2;
         }
         queue[n] = item;
+        havePushed = true;
         n++;
     }
 
@@ -53,43 +56,45 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             System.arraycopy(tempData, 0, queue, 0, n);
             size = size / 2;
         }
-        StdRandom.shuffle(queue, 0, n);
+        if (havePushed) {
+            StdRandom.shuffle(queue, 0, n);
+        }
         Item itemToReturn = queue[n - 1];
         queue[n - 1] = null;
         n--;
+        havePushed = false;
         return itemToReturn;
     }
 
     public Item sample() {
         if (n <= 0) {
-            throw new NoSuchElementException("The queue is empty.");
+            throw new NoSuchElementException("The queque is empty.");
         }
-        StdRandom.shuffle(queue, 0, n);
-        Item itemToReturn = queue[n - 1];
+        Item itemToReturn = queue[StdRandom.uniform(0, n)];
         return itemToReturn;
     }
 
     public Iterator<Item> iterator() {
-        QueueIterator itr = new QueueIterator();
-        itr.randomShuffle();
-        return itr;
+        return new QueueIterator();
     }
 
     private class QueueIterator implements Iterator<Item> {
         private int current = n;
 
+        private Item[] queueCopy = (Item[]) new Object[n + 1];
+
+        QueueIterator() {
+            System.arraycopy(queue, 0, queueCopy, 0, n);
+            StdRandom.shuffle(queueCopy, 0, n);
+        }
+
         public boolean hasNext() {
             return current >= 1;
         }
 
-        public void randomShuffle() {
-            StdRandom.shuffle(queue, 0, n);
-        }
-
         public Item next() {
-
             if (!hasNext()) throw new NoSuchElementException();
-            Item item = queue[current - 1];
+            Item item = queueCopy[current - 1];
             current--;
             return item;
         }
@@ -108,11 +113,18 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         myQueue.enqueue(3);
         myQueue.enqueue(4);
         myQueue.enqueue(5);
-        Iterator<Integer> itr = myQueue.iterator();
-        for (int item : myQueue) {
-            System.out.println(item);
 
+        for (int a : myQueue) {
+            for (int b : myQueue)
+                StdOut.print(a + "-" + b + " ");
+            StdOut.println();
         }
+
+        // Iterator<Integer> itr = myQueue.iterator();
+        // for (int item : myQueue) {
+        //    System.out.println(item);
+
+        //}
 
         // Iterator<Integer> itr2 = myQueue.iterator();
         // for (int item : myQueue) {

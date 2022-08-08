@@ -152,7 +152,6 @@ public class Deque<Item> implements Iterable<Item> {
         System.out.println(myDeck.removeFirst());
         System.out.println(myDeck.removeLast());
         System.out.println(myDeck.removeLast());
-        Iterator<Integer> itr = myDeck.iterator();
 
         for (int item : myDeck) {
             System.out.println(item);
